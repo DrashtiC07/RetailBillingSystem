@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using Npgsql;
 using RetailBillingSystem.Database;
 using RetailBillingSystem.Models;
@@ -175,11 +175,11 @@ namespace RetailBillingSystem.Forms
             lblUsername.Height = 20;
             usernamePanel.Controls.Add(lblUsername);
 
-            // Username textbox
+            // Username textbox - reduced border radius to prevent overlapping
             txtUsername = new Guna2TextBox();
             txtUsername.PlaceholderText = "Enter your username";
             txtUsername.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            txtUsername.BorderRadius = 10;
+            txtUsername.BorderRadius = 8;
             txtUsername.BorderColor = UIHelper.BorderColor;
             txtUsername.ForeColor = UIHelper.TextPrimary;
             txtUsername.Height = 45;
@@ -201,11 +201,11 @@ namespace RetailBillingSystem.Forms
             lblPassword.Height = 20;
             passwordPanel.Controls.Add(lblPassword);
 
-            // Password textbox
+            // Password textbox - reduced border radius to prevent overlapping
             txtPassword = new Guna2TextBox();
             txtPassword.PlaceholderText = "Enter your password";
             txtPassword.Font = new Font("Segoe UI", 11, FontStyle.Regular);
-            txtPassword.BorderRadius = 10;
+            txtPassword.BorderRadius = 8;
             txtPassword.BorderColor = UIHelper.BorderColor;
             txtPassword.ForeColor = UIHelper.TextPrimary;
             txtPassword.Height = 45;

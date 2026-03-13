@@ -15,7 +15,6 @@ namespace RetailBillingSystem.Forms
         private Panel mainContentPanel;
 
         // Sidebar buttons
-        private Guna2Button btnDashboard;
         private Guna2Button btnProducts;
         private Guna2Button btnCustomers;
         private Guna2Button btnBilling;
@@ -71,9 +70,17 @@ namespace RetailBillingSystem.Forms
             this.Controls.Add(topHeaderPanel);    // Top docked
             this.Controls.Add(sidebarPanel);      // Left docked - added last so it appears on left
 
-            // Load dashboard form by default
-            LoadForm(new DashboardForm());
-            SetActiveButton(btnDashboard);
+            // Load default form based on role
+            if (CurrentUser.IsAdmin)
+            {
+                LoadForm(new ProductForm());
+                SetActiveButton(btnProducts);
+            }
+            else
+            {
+                LoadForm(new BillingForm());
+                SetActiveButton(btnBilling);
+            }
         }
 
         private void CreateSidebarPanel()
@@ -122,20 +129,7 @@ namespace RetailBillingSystem.Forms
             menuPanel.Padding = new Padding(10, 10, 10, 10);
             sidebarPanel.Controls.Add(menuPanel);
 
-            // Create menu buttons
-            btnDashboard = CreateMenuButton("Dashboard");
-            btnDashboard.Click += (s, e) => { LoadForm(new DashboardForm()); SetActiveButton(btnDashboard); };
-
-            btnBilling = CreateMenuButton("Billing");
-            btnBilling.Click += (s, e) => { LoadForm(new BillingForm()); SetActiveButton(btnBilling); };
-
-            btnSalesHistory = CreateMenuButton("Sales History");
-            btnSalesHistory.Click += (s, e) => { LoadForm(new SalesHistoryForm()); SetActiveButton(btnSalesHistory); };
-
-            btnLogout = CreateMenuButton("Logout");
-            btnLogout.Click += BtnLogout_Click;
-
-            // Add buttons based on role - use FlowLayoutPanel for proper ordering
+            // Create menu buttons - add buttons based on role
             var buttonContainer = new FlowLayoutPanel();
             buttonContainer.Dock = DockStyle.Fill;
             buttonContainer.FlowDirection = FlowDirection.TopDown;
@@ -146,26 +140,40 @@ namespace RetailBillingSystem.Forms
 
             if (CurrentUser.IsAdmin)
             {
+                // Admin sees: Products, Customers, Billing, Sales History, Logout
                 btnProducts = CreateMenuButton("Products");
                 btnProducts.Click += (s, e) => { LoadForm(new ProductForm()); SetActiveButton(btnProducts); };
+                buttonContainer.Controls.Add(btnProducts);
 
                 btnCustomers = CreateMenuButton("Customers");
                 btnCustomers.Click += (s, e) => { LoadForm(new CustomerForm()); SetActiveButton(btnCustomers); };
-
-                // Admin menu order
-                buttonContainer.Controls.Add(btnDashboard);
-                buttonContainer.Controls.Add(btnProducts);
                 buttonContainer.Controls.Add(btnCustomers);
+
+                btnBilling = CreateMenuButton("Billing");
+                btnBilling.Click += (s, e) => { LoadForm(new BillingForm()); SetActiveButton(btnBilling); };
                 buttonContainer.Controls.Add(btnBilling);
+
+                btnSalesHistory = CreateMenuButton("Sales History");
+                btnSalesHistory.Click += (s, e) => { LoadForm(new SalesHistoryForm()); SetActiveButton(btnSalesHistory); };
                 buttonContainer.Controls.Add(btnSalesHistory);
+
+                btnLogout = CreateMenuButton("Logout");
+                btnLogout.Click += BtnLogout_Click;
                 buttonContainer.Controls.Add(btnLogout);
             }
             else
             {
-                // Customer menu order
-                buttonContainer.Controls.Add(btnDashboard);
+                // Customer sees: Billing, Sales History, Logout
+                btnBilling = CreateMenuButton("Billing");
+                btnBilling.Click += (s, e) => { LoadForm(new BillingForm()); SetActiveButton(btnBilling); };
                 buttonContainer.Controls.Add(btnBilling);
+
+                btnSalesHistory = CreateMenuButton("Sales History");
+                btnSalesHistory.Click += (s, e) => { LoadForm(new SalesHistoryForm()); SetActiveButton(btnSalesHistory); };
                 buttonContainer.Controls.Add(btnSalesHistory);
+
+                btnLogout = CreateMenuButton("Logout");
+                btnLogout.Click += BtnLogout_Click;
                 buttonContainer.Controls.Add(btnLogout);
             }
         }

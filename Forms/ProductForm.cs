@@ -185,7 +185,7 @@ namespace RetailBillingSystem.Forms
 
             yPos += 22;
             txtProductName = new Guna2TextBox();
-            UIHelper.StyleTextBox(txtProductName, "Enter product name");
+            UIHelper.StyleTextBox(txtProductName, "");
             txtProductName.Size = new Size(290, 42);
             txtProductName.Location = new Point(20, yPos);
             formCard.Controls.Add(txtProductName);
@@ -203,7 +203,7 @@ namespace RetailBillingSystem.Forms
 
             yPos += 22;
             txtPrice = new Guna2TextBox();
-            UIHelper.StyleTextBox(txtPrice, "Enter price");
+            UIHelper.StyleTextBox(txtPrice, "");
             txtPrice.Size = new Size(290, 42);
             txtPrice.Location = new Point(20, yPos);
             txtPrice.KeyPress += TxtPrice_KeyPress;
@@ -222,7 +222,7 @@ namespace RetailBillingSystem.Forms
 
             yPos += 22;
             txtStock = new Guna2TextBox();
-            UIHelper.StyleTextBox(txtStock, "Enter stock");
+            UIHelper.StyleTextBox(txtStock, "");
             txtStock.Size = new Size(290, 42);
             txtStock.Location = new Point(20, yPos);
             txtStock.KeyPress += TxtStock_KeyPress;
@@ -241,7 +241,7 @@ namespace RetailBillingSystem.Forms
 
             yPos += 22;
             txtDescription = new Guna2TextBox();
-            UIHelper.StyleTextBox(txtDescription, "Enter description");
+            UIHelper.StyleTextBox(txtDescription, "");
             txtDescription.Size = new Size(290, 70);
             txtDescription.Location = new Point(20, yPos);
             txtDescription.Multiline = true;
@@ -360,20 +360,35 @@ namespace RetailBillingSystem.Forms
 
         private void DgvProducts_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvProducts.SelectedRows.Count > 0)
+            // Prevent NullReferenceException by checking for valid selection
+            if (dgvProducts.SelectedRows.Count == 0 || dgvProducts.Rows.Count == 0)
+            {
+                ClearForm();
+                return;
+            }
+
+            try
             {
                 var row = dgvProducts.SelectedRows[0];
+                
+                // Additional null checks for cell values
+                if (row.Cells["ProductID"].Value == null)
+                {
+                    ClearForm();
+                    return;
+                }
+
                 _selectedProductId = Convert.ToInt32(row.Cells["ProductID"].Value);
-                txtProductName.Text = row.Cells["ProductName"].Value.ToString();
-                txtPrice.Text = row.Cells["Price"].Value.ToString().Replace("₹", "").Replace(",", "");
-                txtStock.Text = row.Cells["Stock"].Value.ToString();
+                txtProductName.Text = row.Cells["ProductName"].Value?.ToString() ?? "";
+                txtPrice.Text = (row.Cells["Price"].Value?.ToString() ?? "0").Replace("₹", "").Replace(",", "").Trim();
+                txtStock.Text = row.Cells["Stock"].Value?.ToString() ?? "0";
                 txtDescription.Text = row.Cells["Description"].Value?.ToString() ?? "";
 
                 btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
                 btnAdd.Enabled = false;
             }
-            else
+            catch (Exception)
             {
                 ClearForm();
             }
