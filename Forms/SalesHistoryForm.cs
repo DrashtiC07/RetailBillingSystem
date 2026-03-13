@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using RetailBillingSystem.Models;
 using RetailBillingSystem.Services;
 using RetailBillingSystem.Utils;
@@ -82,14 +82,15 @@ namespace RetailBillingSystem.Forms
             contentPanel.Padding = new Padding(0, 70, 0, 0);
             mainPanel.Controls.Add(contentPanel);
 
-            // Top action bar
-            var actionPanel = new Panel();
+            // Top action bar using FlowLayoutPanel for responsive layout
+            var actionPanel = new FlowLayoutPanel();
             actionPanel.Dock = DockStyle.Top;
             actionPanel.Height = 55;
             actionPanel.BackColor = Color.Transparent;
+            actionPanel.FlowDirection = FlowDirection.LeftToRight;
+            actionPanel.WrapContents = false;
+            actionPanel.Padding = new Padding(0, 5, 0, 5);
             contentPanel.Controls.Add(actionPanel);
-
-            int xPos = 0;
 
             // Search textbox (admin only)
             if (CurrentUser.IsAdmin)
@@ -97,34 +98,31 @@ namespace RetailBillingSystem.Forms
                 txtSearch = new Guna2TextBox();
                 UIHelper.StyleTextBox(txtSearch, "Search by customer name...");
                 txtSearch.Size = new Size(300, 42);
-                txtSearch.Location = new Point(xPos, 5);
+                txtSearch.Margin = new Padding(0, 0, 15, 0);
                 txtSearch.TextChanged += TxtSearch_TextChanged;
                 actionPanel.Controls.Add(txtSearch);
-                xPos += 320;
             }
 
             // Refresh button
             btnRefresh = new Guna2Button();
             UIHelper.StylePrimaryButton(btnRefresh, "Refresh");
             btnRefresh.Size = new Size(120, 42);
-            btnRefresh.Location = new Point(xPos, 5);
+            btnRefresh.Margin = new Padding(0, 0, 15, 0);
             btnRefresh.Click += BtnRefresh_Click;
             actionPanel.Controls.Add(btnRefresh);
-            xPos += 135;
 
             // View Details button
             btnViewDetails = new Guna2Button();
             UIHelper.StyleSuccessButton(btnViewDetails, "View Details");
             btnViewDetails.Size = new Size(150, 42);
-            btnViewDetails.Location = new Point(xPos, 5);
+            btnViewDetails.Margin = new Padding(0);
             btnViewDetails.Click += BtnViewDetails_Click;
             btnViewDetails.Enabled = false;
             actionPanel.Controls.Add(btnViewDetails);
 
             // Sales DataGridView
             dgvSales = new Guna2DataGridView();
-            dgvSales.Location = new Point(0, 70);
-            dgvSales.Size = new Size(920, 520);
+            dgvSales.Dock = DockStyle.Fill;
             UIHelper.StyleDataGridView(dgvSales);
             dgvSales.SelectionChanged += DgvSales_SelectionChanged;
             contentPanel.Controls.Add(dgvSales);

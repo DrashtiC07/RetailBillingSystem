@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using RetailBillingSystem.Models;
 using RetailBillingSystem.Services;
 using RetailBillingSystem.Utils;
@@ -78,24 +78,28 @@ namespace RetailBillingSystem.Forms
             lblTitle.Location = new Point(0, 5);
             titlePanel.Controls.Add(lblTitle);
 
-            // Main content area - split into left and right
-            var contentPanel = new Panel();
+            // Main content area - use TableLayoutPanel for responsive two-column layout
+            var contentPanel = new TableLayoutPanel();
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.BackColor = Color.Transparent;
-            contentPanel.Padding = new Padding(0, 70, 0, 0);
+            contentPanel.Padding = new Padding(0, 10, 0, 0);
+            contentPanel.ColumnCount = 2;
+            contentPanel.RowCount = 1;
+            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 58F)); // Left panel 58%
+            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 42F)); // Right panel 42%
+            contentPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             mainPanel.Controls.Add(contentPanel);
 
             // Left side - Product selection and Cart
             var leftPanel = CreateLeftPanel();
-            leftPanel.Location = new Point(0, 0);
-            leftPanel.Size = new Size(520, 580);
-            contentPanel.Controls.Add(leftPanel);
+            leftPanel.Dock = DockStyle.Fill;
+            contentPanel.Controls.Add(leftPanel, 0, 0);
 
             // Right side - Bill Summary
             var rightPanel = CreateRightPanel();
-            rightPanel.Location = new Point(540, 0);
-            rightPanel.Size = new Size(380, 400);
-            contentPanel.Controls.Add(rightPanel);
+            rightPanel.Dock = DockStyle.Fill;
+            rightPanel.Padding = new Padding(20, 0, 0, 0);
+            contentPanel.Controls.Add(rightPanel, 1, 0);
 
             // Load products
             LoadProducts();
@@ -106,15 +110,15 @@ namespace RetailBillingSystem.Forms
             var panel = new Panel();
             panel.BackColor = Color.Transparent;
 
-            // Product selection card
+            // Product selection card - dock to top with fixed height
             var selectionCard = new Guna2ShadowPanel();
             selectionCard.FillColor = Color.White;
             selectionCard.ShadowColor = Color.Black;
             selectionCard.ShadowDepth = 15;
             selectionCard.ShadowShift = 3;
             selectionCard.Radius = 12;
-            selectionCard.Size = new Size(500, 240);
-            selectionCard.Location = new Point(0, 0);
+            selectionCard.Dock = DockStyle.Top;
+            selectionCard.Height = 250;
             selectionCard.Padding = new Padding(20);
             panel.Controls.Add(selectionCard);
 
@@ -201,19 +205,31 @@ namespace RetailBillingSystem.Forms
             btnAddToCart.Click += BtnAddToCart_Click;
             selectionCard.Controls.Add(btnAddToCart);
 
-            // Cart section title
+            // Buttons row - dock to bottom first (reverse order for docking)
+            var buttonPanel = new Panel();
+            buttonPanel.Dock = DockStyle.Bottom;
+            buttonPanel.Height = 55;
+            buttonPanel.BackColor = Color.Transparent;
+            panel.Controls.Add(buttonPanel);
+
+            // Cart section title - dock below selection card
+            var cartTitlePanel = new Panel();
+            cartTitlePanel.Dock = DockStyle.Top;
+            cartTitlePanel.Height = 40;
+            cartTitlePanel.BackColor = Color.Transparent;
+            panel.Controls.Add(cartTitlePanel);
+
             var lblCartTitle = new Label();
             lblCartTitle.Text = "Cart Items";
             lblCartTitle.Font = new Font("Segoe UI", 14, FontStyle.Bold);
             lblCartTitle.ForeColor = UIHelper.TextPrimary;
             lblCartTitle.AutoSize = true;
-            lblCartTitle.Location = new Point(0, 260);
-            panel.Controls.Add(lblCartTitle);
+            lblCartTitle.Location = new Point(0, 10);
+            cartTitlePanel.Controls.Add(lblCartTitle);
 
-            // Cart DataGridView
+            // Cart DataGridView - fill remaining space
             dgvCart = new Guna2DataGridView();
-            dgvCart.Location = new Point(0, 290);
-            dgvCart.Size = new Size(500, 220);
+            dgvCart.Dock = DockStyle.Fill;
             UIHelper.StyleDataGridView(dgvCart);
             dgvCart.SelectionChanged += DgvCart_SelectionChanged;
             panel.Controls.Add(dgvCart);
@@ -230,13 +246,6 @@ namespace RetailBillingSystem.Forms
             dgvCart.Columns["UnitPrice"].FillWeight = 20;
             dgvCart.Columns["Quantity"].FillWeight = 15;
             dgvCart.Columns["TotalPrice"].FillWeight = 30;
-
-            // Buttons row
-            var buttonPanel = new Panel();
-            buttonPanel.Location = new Point(0, 520);
-            buttonPanel.Size = new Size(500, 50);
-            buttonPanel.BackColor = Color.Transparent;
-            panel.Controls.Add(buttonPanel);
 
             // Remove button
             btnRemoveFromCart = new Guna2Button();
@@ -268,15 +277,15 @@ namespace RetailBillingSystem.Forms
             var panel = new Panel();
             panel.BackColor = Color.Transparent;
 
-            // Summary card
+            // Summary card - dock to top with fixed height
             var summaryCard = new Guna2ShadowPanel();
             summaryCard.FillColor = Color.White;
             summaryCard.ShadowColor = Color.Black;
             summaryCard.ShadowDepth = 20;
             summaryCard.ShadowShift = 4;
             summaryCard.Radius = 12;
-            summaryCard.Size = new Size(360, 380);
-            summaryCard.Location = new Point(0, 0);
+            summaryCard.Dock = DockStyle.Top;
+            summaryCard.Height = 320;
             summaryCard.Padding = new Padding(25);
             panel.Controls.Add(summaryCard);
 

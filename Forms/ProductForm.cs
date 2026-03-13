@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using RetailBillingSystem.Models;
 using RetailBillingSystem.Services;
 using RetailBillingSystem.Utils;
@@ -79,24 +79,28 @@ namespace RetailBillingSystem.Forms
             lblSubtitle.Location = new Point(0, 38);
             titlePanel.Controls.Add(lblSubtitle);
 
-            // Content area
-            var contentPanel = new Panel();
+            // Content area - use TableLayoutPanel for responsive two-column layout
+            var contentPanel = new TableLayoutPanel();
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.BackColor = Color.Transparent;
-            contentPanel.Padding = new Padding(0, 70, 0, 0);
+            contentPanel.Padding = new Padding(0, 10, 0, 0);
+            contentPanel.ColumnCount = 2;
+            contentPanel.RowCount = 1;
+            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F)); // Left panel 60%
+            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F)); // Right panel 40%
+            contentPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             mainPanel.Controls.Add(contentPanel);
 
             // Left panel - Product List
             var leftPanel = CreateProductListPanel();
-            leftPanel.Location = new Point(0, 0);
-            leftPanel.Size = new Size(560, 580);
-            contentPanel.Controls.Add(leftPanel);
+            leftPanel.Dock = DockStyle.Fill;
+            contentPanel.Controls.Add(leftPanel, 0, 0);
 
             // Right panel - Product Form
             var rightPanel = CreateProductFormPanel();
-            rightPanel.Location = new Point(580, 0);
-            rightPanel.Size = new Size(340, 550);
-            contentPanel.Controls.Add(rightPanel);
+            rightPanel.Dock = DockStyle.Fill;
+            rightPanel.Padding = new Padding(20, 0, 0, 0);
+            contentPanel.Controls.Add(rightPanel, 1, 0);
 
             // Load products
             LoadProducts();
@@ -122,8 +126,7 @@ namespace RetailBillingSystem.Forms
 
             // Products DataGridView
             dgvProducts = new Guna2DataGridView();
-            dgvProducts.Location = new Point(0, 60);
-            dgvProducts.Size = new Size(560, 520);
+            dgvProducts.Dock = DockStyle.Fill;
             UIHelper.StyleDataGridView(dgvProducts);
             dgvProducts.SelectionChanged += DgvProducts_SelectionChanged;
             panel.Controls.Add(dgvProducts);

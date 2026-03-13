@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using RetailBillingSystem.Models;
 using RetailBillingSystem.Utils;
 using System;
@@ -55,10 +55,21 @@ namespace RetailBillingSystem.Forms
 
         private void InitializeDashboard()
         {
-            // Create the three main panels with proper layout
-            CreateSidebarPanel();
-            CreateTopHeaderPanel();
-            CreateMainContentPanel();
+            // IMPORTANT: In Windows Forms with Docking, controls must be added in reverse order
+            // The Fill-docked control must be added FIRST, then the edge-docked panels
+            // This ensures proper layout without overlapping
+            
+            // Step 1: Create all panels first
+            CreateMainContentPanel();  // Fill - must be added to Controls first
+            CreateTopHeaderPanel();    // Top - added second
+            CreateSidebarPanel();      // Left - added last
+
+            // Step 2: Add controls in correct order for docking
+            // Clear and re-add in proper order: Fill first, then edges
+            this.Controls.Clear();
+            this.Controls.Add(mainContentPanel);  // Fill docked - added first
+            this.Controls.Add(topHeaderPanel);    // Top docked
+            this.Controls.Add(sidebarPanel);      // Left docked - added last so it appears on left
 
             // Load dashboard form by default
             LoadForm(new DashboardForm());

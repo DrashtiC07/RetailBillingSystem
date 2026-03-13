@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using Npgsql;
 using RetailBillingSystem.Database;
 using RetailBillingSystem.Models;
@@ -79,18 +79,21 @@ namespace RetailBillingSystem.Forms
             contentPanel.Padding = new Padding(0, 70, 0, 0);
             mainPanel.Controls.Add(contentPanel);
 
-            // Top action bar
-            var actionPanel = new Panel();
+            // Top action bar using FlowLayoutPanel for responsive layout
+            var actionPanel = new FlowLayoutPanel();
             actionPanel.Dock = DockStyle.Top;
             actionPanel.Height = 55;
             actionPanel.BackColor = Color.Transparent;
+            actionPanel.FlowDirection = FlowDirection.LeftToRight;
+            actionPanel.WrapContents = false;
+            actionPanel.Padding = new Padding(0, 5, 0, 5);
             contentPanel.Controls.Add(actionPanel);
 
             // Search textbox
             txtSearch = new Guna2TextBox();
             UIHelper.StyleTextBox(txtSearch, "Search customers by name, phone or email...");
             txtSearch.Size = new Size(400, 42);
-            txtSearch.Location = new Point(0, 5);
+            txtSearch.Margin = new Padding(0, 0, 15, 0);
             txtSearch.TextChanged += TxtSearch_TextChanged;
             actionPanel.Controls.Add(txtSearch);
 
@@ -98,7 +101,7 @@ namespace RetailBillingSystem.Forms
             btnRefresh = new Guna2Button();
             UIHelper.StylePrimaryButton(btnRefresh, "Refresh");
             btnRefresh.Size = new Size(120, 42);
-            btnRefresh.Location = new Point(420, 5);
+            btnRefresh.Margin = new Padding(0, 0, 15, 0);
             btnRefresh.Click += BtnRefresh_Click;
             actionPanel.Controls.Add(btnRefresh);
 
@@ -106,15 +109,14 @@ namespace RetailBillingSystem.Forms
             btnDelete = new Guna2Button();
             UIHelper.StyleDangerButton(btnDelete, "Delete Selected");
             btnDelete.Size = new Size(150, 42);
-            btnDelete.Location = new Point(555, 5);
+            btnDelete.Margin = new Padding(0);
             btnDelete.Click += BtnDelete_Click;
             btnDelete.Enabled = false;
             actionPanel.Controls.Add(btnDelete);
 
             // Customers DataGridView
             dgvCustomers = new Guna2DataGridView();
-            dgvCustomers.Location = new Point(0, 70);
-            dgvCustomers.Size = new Size(920, 520);
+            dgvCustomers.Dock = DockStyle.Fill;
             UIHelper.StyleDataGridView(dgvCustomers);
             dgvCustomers.SelectionChanged += DgvCustomers_SelectionChanged;
             contentPanel.Controls.Add(dgvCustomers);
