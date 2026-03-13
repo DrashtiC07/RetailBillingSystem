@@ -72,11 +72,11 @@ namespace RetailBillingSystem.Forms
             lblSubtitle.Location = new Point(0, 38);
             titlePanel.Controls.Add(lblSubtitle);
 
-            // Content panel
+            // Content panel - removed excessive top padding to prevent header cut-off
             var contentPanel = new Panel();
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.BackColor = Color.Transparent;
-            contentPanel.Padding = new Padding(0, 70, 0, 0);
+            contentPanel.Padding = new Padding(0, 10, 0, 0);
             mainPanel.Controls.Add(contentPanel);
 
             // Top action bar using FlowLayoutPanel for responsive layout
@@ -86,7 +86,7 @@ namespace RetailBillingSystem.Forms
             actionPanel.BackColor = Color.Transparent;
             actionPanel.FlowDirection = FlowDirection.LeftToRight;
             actionPanel.WrapContents = false;
-            actionPanel.Padding = new Padding(0, 5, 0, 5);
+            actionPanel.Padding = new Padding(0, 0, 0, 10);
             contentPanel.Controls.Add(actionPanel);
 
             // Search textbox
@@ -277,20 +277,23 @@ namespace RetailBillingSystem.Forms
 
         private void DgvCustomers_SelectionChanged(object sender, EventArgs e)
         {
-            btnDelete.Enabled = dgvCustomers.SelectedRows.Count > 0;
+            // Prevent NullReferenceException
+            btnDelete.Enabled = dgvCustomers.SelectedRows.Count > 0 && dgvCustomers.Rows.Count > 0;
         }
 
         private void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvCustomers.SelectedRows.Count == 0) return;
+            if (dgvCustomers.SelectedRows.Count == 0 || dgvCustomers.Rows.Count == 0) return;
 
-            var row = dgvCustomers.SelectedRows[0];
-            int customerId = Convert.ToInt32(row.Cells["CustomerID"].Value);
-            string customerName = row.Cells["FullName"].Value.ToString();
-
-            if (UIHelper.ShowConfirm($"Are you sure you want to delete customer '{customerName}'?\n\nThis will also delete their user account and cannot be undone."))
+            try
             {
-                try
+                var row = dgvCustomers.SelectedRows[0];
+                if (row.Cells["CustomerID"].Value == null) return;
+                
+                int customerId = Convert.ToInt32(row.Cells["CustomerID"].Value);
+                string customerName = row.Cells["FullName"].Value?.ToString() ?? "Unknown";
+
+                if (UIHelper.ShowConfirm($"Are you sure you want to delete customer '{customerName}'?\n\nThis will also delete their user account and cannot be undone."))
                 {
                     if (DeleteCustomer(customerId))
                     {
@@ -303,10 +306,10 @@ namespace RetailBillingSystem.Forms
                         UIHelper.ShowError("Failed to delete customer.");
                     }
                 }
-                catch (Exception ex)
-                {
-                    UIHelper.ShowError($"Error deleting customer: {ex.Message}");
-                }
+            }
+            catch (Exception ex)
+            {
+                UIHelper.ShowError($"Error deleting customer: {ex.Message}");
             }
         }
 

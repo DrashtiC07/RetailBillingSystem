@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -111,11 +111,14 @@ namespace RetailBillingSystem.Utils
         public static void StyleTextBox(Guna2TextBox textBox, string placeholder)
         {
             textBox.PlaceholderText = placeholder;
+            textBox.PlaceholderForeColor = TextSecondary;
             textBox.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-            textBox.BorderRadius = 8;
+            textBox.BorderRadius = 6;  // Reduced to prevent overlapping
             textBox.BorderColor = BorderColor;
+            textBox.FocusedState.BorderColor = PrimaryButton;
             textBox.ForeColor = TextPrimary;
-            textBox.Height = 40;
+            textBox.Height = 42;
+            textBox.Margin = new Padding(0, 0, 0, 10);
         }
 
         /// <summary>
@@ -132,7 +135,7 @@ namespace RetailBillingSystem.Utils
         }
 
         /// <summary>
-        /// Styles a Guna2DataGridView
+        /// Styles a Guna2DataGridView with modern dashboard appearance
         /// </summary>
         public static void StyleDataGridView(Guna2DataGridView dgv)
         {
@@ -144,18 +147,24 @@ namespace RetailBillingSystem.Utils
             dgv.ColumnHeadersDefaultCellStyle.BackColor = SidebarBackground;
             dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-            dgv.ColumnHeadersHeight = 40;
+            dgv.ColumnHeadersDefaultCellStyle.Padding = new Padding(10, 0, 0, 0);
+            dgv.ColumnHeadersHeight = 45;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgv.DefaultCellStyle.BackColor = CardBackground;
             dgv.DefaultCellStyle.ForeColor = TextPrimary;
             dgv.DefaultCellStyle.Font = new Font("Segoe UI", 9.5f, FontStyle.Regular);
             dgv.DefaultCellStyle.SelectionBackColor = SidebarActive;
             dgv.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgv.DefaultCellStyle.Padding = new Padding(8, 0, 0, 0);
             dgv.EnableHeadersVisualStyles = false;
             dgv.GridColor = BorderColor;
             dgv.RowHeadersVisible = false;
-            dgv.RowTemplate.Height = 35;
+            dgv.RowTemplate.Height = 40;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
+            dgv.AllowUserToResizeRows = false;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
         }
 
         /// <summary>

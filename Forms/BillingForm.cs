@@ -448,15 +448,24 @@ namespace RetailBillingSystem.Forms
 
         private void BtnRemoveFromCart_Click(object sender, EventArgs e)
         {
-            if (dgvCart.SelectedRows.Count > 0)
+            if (dgvCart.SelectedRows.Count == 0 || dgvCart.Rows.Count == 0) return;
+            
+            try
             {
-                int productId = Convert.ToInt32(dgvCart.SelectedRows[0].Cells["ProductID"].Value);
+                var row = dgvCart.SelectedRows[0];
+                if (row.Cells["ProductID"].Value == null) return;
+                
+                int productId = Convert.ToInt32(row.Cells["ProductID"].Value);
                 var item = _cartItems.Find(i => i.ProductID == productId);
                 if (item != null)
                 {
                     _cartItems.Remove(item);
                     RefreshCart();
                 }
+            }
+            catch (Exception)
+            {
+                // Silently ignore selection errors
             }
         }
 
@@ -511,7 +520,8 @@ namespace RetailBillingSystem.Forms
 
         private void DgvCart_SelectionChanged(object sender, EventArgs e)
         {
-            btnRemoveFromCart.Enabled = dgvCart.SelectedRows.Count > 0;
+            // Prevent NullReferenceException
+            btnRemoveFromCart.Enabled = dgvCart.SelectedRows.Count > 0 && dgvCart.Rows.Count > 0;
         }
 
         private void RefreshCart()

@@ -75,11 +75,11 @@ namespace RetailBillingSystem.Forms
             lblSubtitle.Location = new Point(0, 38);
             titlePanel.Controls.Add(lblSubtitle);
 
-            // Content panel
+            // Content panel - removed excessive top padding to prevent header cut-off
             var contentPanel = new Panel();
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.BackColor = Color.Transparent;
-            contentPanel.Padding = new Padding(0, 70, 0, 0);
+            contentPanel.Padding = new Padding(0, 10, 0, 0);
             mainPanel.Controls.Add(contentPanel);
 
             // Top action bar using FlowLayoutPanel for responsive layout
@@ -89,7 +89,7 @@ namespace RetailBillingSystem.Forms
             actionPanel.BackColor = Color.Transparent;
             actionPanel.FlowDirection = FlowDirection.LeftToRight;
             actionPanel.WrapContents = false;
-            actionPanel.Padding = new Padding(0, 5, 0, 5);
+            actionPanel.Padding = new Padding(0, 0, 0, 10);
             contentPanel.Controls.Add(actionPanel);
 
             // Search textbox (admin only)
@@ -226,12 +226,29 @@ namespace RetailBillingSystem.Forms
 
         private void DgvSales_SelectionChanged(object sender, EventArgs e)
         {
-            if (dgvSales.SelectedRows.Count > 0)
+            // Prevent NullReferenceException
+            if (dgvSales.SelectedRows.Count == 0 || dgvSales.Rows.Count == 0)
             {
-                _selectedSaleId = Convert.ToInt32(dgvSales.SelectedRows[0].Cells["SaleID"].Value);
-                btnViewDetails.Enabled = true;
+                _selectedSaleId = 0;
+                btnViewDetails.Enabled = false;
+                return;
             }
-            else
+
+            try
+            {
+                var row = dgvSales.SelectedRows[0];
+                if (row.Cells["SaleID"].Value != null)
+                {
+                    _selectedSaleId = Convert.ToInt32(row.Cells["SaleID"].Value);
+                    btnViewDetails.Enabled = true;
+                }
+                else
+                {
+                    _selectedSaleId = 0;
+                    btnViewDetails.Enabled = false;
+                }
+            }
+            catch (Exception)
             {
                 _selectedSaleId = 0;
                 btnViewDetails.Enabled = false;
