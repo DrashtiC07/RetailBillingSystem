@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using RetailBillingSystem.Models;
 using RetailBillingSystem.Services;
 using RetailBillingSystem.Utils;
@@ -37,40 +37,45 @@ namespace RetailBillingSystem.Forms
 
         private void InitializeDashboard()
         {
-            // Main container panel with proper padding
+            // Main container panel
             var mainPanel = new Panel();
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.BackColor = UIHelper.MainBackground;
-            mainPanel.Padding = new Padding(10, 10, 10, 10);
+            mainPanel.Padding = new Padding(0);
             mainPanel.AutoScroll = true;
             this.Controls.Add(mainPanel);
 
-            // Title section
-            var titlePanel = new Panel();
-            titlePanel.Dock = DockStyle.Top;
-            titlePanel.Height = 70;
-            titlePanel.BackColor = Color.Transparent;
-            mainPanel.Controls.Add(titlePanel);
+            // Title section - Clean header card
+            var titleCard = new Guna2ShadowPanel();
+            titleCard.Dock = DockStyle.Top;
+            titleCard.Height = 70;
+            titleCard.FillColor = Color.White;
+            titleCard.ShadowColor = Color.FromArgb(20, 0, 0, 0);
+            titleCard.ShadowDepth = 8;
+            titleCard.ShadowShift = 2;
+            titleCard.Radius = 12;
+            titleCard.Padding = new Padding(24, 0, 24, 0);
+            mainPanel.Controls.Add(titleCard);
 
             // Title
             var lblTitle = new Label();
-            lblTitle.Text = CurrentUser.IsAdmin ? "Admin Dashboard" : "My Dashboard";
-            lblTitle.Font = new Font("Segoe UI", 22, FontStyle.Bold);
+            lblTitle.Text = CurrentUser.IsAdmin ? "Dashboard" : "My Dashboard";
+            lblTitle.Font = new Font("Segoe UI", 18, FontStyle.Bold);
             lblTitle.ForeColor = UIHelper.TextPrimary;
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(0, 5);
-            titlePanel.Controls.Add(lblTitle);
+            lblTitle.Location = new Point(24, 14);
+            titleCard.Controls.Add(lblTitle);
 
             // Subtitle
             var lblSubtitle = new Label();
             lblSubtitle.Text = CurrentUser.IsAdmin
                 ? "Overview of your retail business"
                 : "Overview of your purchase history";
-            lblSubtitle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            lblSubtitle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
             lblSubtitle.ForeColor = UIHelper.TextSecondary;
             lblSubtitle.AutoSize = true;
-            lblSubtitle.Location = new Point(0, 38);
-            titlePanel.Controls.Add(lblSubtitle);
+            lblSubtitle.Location = new Point(24, 40);
+            titleCard.Controls.Add(lblSubtitle);
 
             // Stats cards container - FlowLayoutPanel for proper wrapping
             var cardsPanel = new FlowLayoutPanel();
@@ -79,7 +84,7 @@ namespace RetailBillingSystem.Forms
             cardsPanel.FlowDirection = FlowDirection.LeftToRight;
             cardsPanel.WrapContents = true;
             cardsPanel.BackColor = Color.Transparent;
-            cardsPanel.Padding = new Padding(0, 10, 0, 10);
+            cardsPanel.Padding = new Padding(20, 20, 20, 10);
             cardsPanel.AutoSize = false;
             mainPanel.Controls.Add(cardsPanel);
 
@@ -172,13 +177,13 @@ namespace RetailBillingSystem.Forms
         {
             var card = new Guna2ShadowPanel();
             card.FillColor = Color.White;
-            card.ShadowColor = Color.Black;
-            card.ShadowDepth = 15;
-            card.ShadowShift = 3;
-            card.Radius = 12; // For stat cards
-            card.Size = new Size(260, 130);
+            card.ShadowColor = Color.FromArgb(20, 0, 0, 0);
+            card.ShadowDepth = 10;
+            card.ShadowShift = 2;
+            card.Radius = 12;
+            card.Size = new Size(240, 120);
             card.Margin = new Padding(8);
-            card.Padding = new Padding(15);
+            card.Padding = new Padding(16);
 
             // Use TableLayoutPanel for proper layout
             var tableLayout = new TableLayoutPanel();
@@ -308,13 +313,13 @@ namespace RetailBillingSystem.Forms
         {
             var card = new Guna2ShadowPanel();
             card.FillColor = Color.White;
-            card.ShadowColor = Color.Black;
-            card.ShadowDepth = 10;
+            card.ShadowColor = Color.FromArgb(20, 0, 0, 0);
+            card.ShadowDepth = 8;
             card.ShadowShift = 2;
-            card.Radius = 10; // Use Radius instead of BorderRadius
+            card.Radius = 12;
             card.Size = new Size(180, 90);
             card.Margin = new Padding(8);
-            card.Padding = new Padding(12);
+            card.Padding = new Padding(16);
             card.Cursor = Cursors.Hand;
 
             var tableLayout = new TableLayoutPanel();

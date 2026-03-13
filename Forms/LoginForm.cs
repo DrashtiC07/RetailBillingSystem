@@ -47,11 +47,11 @@ namespace RetailBillingSystem.Forms
 
         private void InitializeCustomComponents()
         {
-            // Create left panel with solid color (not gradient for better text visibility)
+            // Create left panel with modern green gradient
             leftPanel = new Panel();
             leftPanel.Dock = DockStyle.Left;
-            leftPanel.Width = 380;
-            leftPanel.BackColor = UIHelper.SidebarBackground;
+            leftPanel.Width = 400;
+            leftPanel.BackColor = UIHelper.AccentColor;
             this.Controls.Add(leftPanel);
 
             // Add welcome content to left panel
@@ -63,28 +63,25 @@ namespace RetailBillingSystem.Forms
 
         private void CreateLeftPanelContent()
         {
-            // Logo container
-            var logoPanel = new Panel();
-            logoPanel.Size = new Size(80, 80);
-            logoPanel.Location = new Point(40, 60);
-            logoPanel.BackColor = Color.FromArgb(60, 255, 255, 255);
-            logoPanel.Paint += (s, e) => {
-                using (var brush = new SolidBrush(Color.FromArgb(60, 255, 255, 255)))
-                {
-                    e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                    e.Graphics.FillEllipse(brush, 0, 0, 79, 79);
-                }
-            };
-            leftPanel.Controls.Add(logoPanel);
+            // Logo icon
+            var logoCircle = new Guna2CircleButton();
+            logoCircle.FillColor = Color.White;
+            logoCircle.ForeColor = UIHelper.AccentColor;
+            logoCircle.Font = new Font("Segoe UI", 24, FontStyle.Bold);
+            logoCircle.Text = "M";
+            logoCircle.Size = new Size(60, 60);
+            logoCircle.Location = new Point(50, 60);
+            logoCircle.Enabled = false;
+            leftPanel.Controls.Add(logoCircle);
 
             // Logo text
             var lblLogo = new Label();
-            lblLogo.Text = "RBS";
-            lblLogo.Font = new Font("Segoe UI", 22, FontStyle.Bold);
+            lblLogo.Text = "Maple";
+            lblLogo.Font = new Font("Segoe UI", 24, FontStyle.Bold);
             lblLogo.ForeColor = Color.White;
             lblLogo.AutoSize = true;
-            lblLogo.Location = new Point(18, 24);
-            logoPanel.Controls.Add(lblLogo);
+            lblLogo.Location = new Point(120, 72);
+            leftPanel.Controls.Add(lblLogo);
 
             // Welcome label
             lblWelcome = new Label();
@@ -92,47 +89,55 @@ namespace RetailBillingSystem.Forms
             lblWelcome.Font = new Font("Segoe UI", 32, FontStyle.Bold);
             lblWelcome.ForeColor = Color.White;
             lblWelcome.AutoSize = true;
-            lblWelcome.Location = new Point(40, 180);
+            lblWelcome.Location = new Point(50, 180);
             leftPanel.Controls.Add(lblWelcome);
 
             // Subtitle
             lblSubtitle = new Label();
             lblSubtitle.Text = "Retail Billing System";
             lblSubtitle.Font = new Font("Segoe UI", 14, FontStyle.Regular);
-            lblSubtitle.ForeColor = Color.FromArgb(200, 255, 255, 255);
+            lblSubtitle.ForeColor = Color.FromArgb(220, 255, 255, 255);
             lblSubtitle.AutoSize = true;
-            lblSubtitle.Location = new Point(40, 240);
+            lblSubtitle.Location = new Point(50, 235);
             leftPanel.Controls.Add(lblSubtitle);
 
             // Additional subtitle line
             var lblSubtitle2 = new Label();
-            lblSubtitle2.Text = "Manage your business with ease";
-            lblSubtitle2.Font = new Font("Segoe UI", 12, FontStyle.Regular);
-            lblSubtitle2.ForeColor = Color.FromArgb(160, 255, 255, 255);
+            lblSubtitle2.Text = "Manage your business with ease.\nSimple, fast, and efficient.";
+            lblSubtitle2.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            lblSubtitle2.ForeColor = Color.FromArgb(200, 255, 255, 255);
             lblSubtitle2.AutoSize = true;
-            lblSubtitle2.Location = new Point(40, 270);
+            lblSubtitle2.Location = new Point(50, 270);
             leftPanel.Controls.Add(lblSubtitle2);
 
-            // Decorative elements at bottom
-            var decorPanel = new Panel();
-            decorPanel.Size = new Size(200, 4);
-            decorPanel.Location = new Point(40, 350);
-            decorPanel.BackColor = Color.FromArgb(100, 255, 255, 255);
-            leftPanel.Controls.Add(decorPanel);
+            // Feature list
+            var features = new string[] { "Inventory Management", "Sales Tracking", "Customer Records", "Easy Billing" };
+            int yOffset = 350;
+            foreach (var feature in features)
+            {
+                var featureLabel = new Label();
+                featureLabel.Text = "  " + feature;
+                featureLabel.Font = new Font("Segoe UI", 10, FontStyle.Regular);
+                featureLabel.ForeColor = Color.FromArgb(230, 255, 255, 255);
+                featureLabel.AutoSize = true;
+                featureLabel.Location = new Point(50, yOffset);
+                leftPanel.Controls.Add(featureLabel);
+                yOffset += 28;
+            }
         }
 
         private void CreateLoginCard()
         {
-            // Card panel using Guna2ShadowPanel
+            // Card panel using Guna2ShadowPanel - Clean minimal shadow
             cardPanel = new Guna2ShadowPanel();
             cardPanel.FillColor = Color.White;
-            cardPanel.ShadowColor = Color.Black;
-            cardPanel.ShadowDepth = 30;
-            cardPanel.ShadowShift = 6;
+            cardPanel.ShadowColor = Color.FromArgb(40, 0, 0, 0);
+            cardPanel.ShadowDepth = 20;
+            cardPanel.ShadowShift = 4;
             cardPanel.Radius = 16;
-            cardPanel.Padding = new Padding(35);
-            cardPanel.Size = new Size(400, 480);
-            cardPanel.Location = new Point(440, 60);
+            cardPanel.Padding = new Padding(40);
+            cardPanel.Size = new Size(380, 460);
+            cardPanel.Location = new Point(460, 70);
             this.Controls.Add(cardPanel);
 
             // Use TableLayoutPanel for proper layout

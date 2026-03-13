@@ -50,44 +50,49 @@ namespace RetailBillingSystem.Forms
             var mainPanel = new Panel();
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.BackColor = UIHelper.MainBackground;
-            mainPanel.Padding = new Padding(10, 10, 10, 10);
+            mainPanel.Padding = new Padding(0);
             mainPanel.AutoScroll = true;
             this.Controls.Add(mainPanel);
 
-            // Title section
-            var titlePanel = new Panel();
-            titlePanel.Dock = DockStyle.Top;
-            titlePanel.Height = 60;
-            titlePanel.BackColor = Color.Transparent;
-            mainPanel.Controls.Add(titlePanel);
+            // Title section - Clean header card
+            var titleCard = new Guna2ShadowPanel();
+            titleCard.Dock = DockStyle.Top;
+            titleCard.Height = 70;
+            titleCard.FillColor = Color.White;
+            titleCard.ShadowColor = Color.FromArgb(20, 0, 0, 0);
+            titleCard.ShadowDepth = 8;
+            titleCard.ShadowShift = 2;
+            titleCard.Radius = 12;
+            titleCard.Padding = new Padding(24, 0, 24, 0);
+            mainPanel.Controls.Add(titleCard);
 
             // Title
             var lblTitle = new Label();
-            lblTitle.Text = "Product Management";
-            lblTitle.Font = new Font("Segoe UI", 22, FontStyle.Bold);
+            lblTitle.Text = "Products";
+            lblTitle.Font = new Font("Segoe UI", 18, FontStyle.Bold);
             lblTitle.ForeColor = UIHelper.TextPrimary;
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(0, 5);
-            titlePanel.Controls.Add(lblTitle);
+            lblTitle.Location = new Point(24, 14);
+            titleCard.Controls.Add(lblTitle);
 
             // Subtitle
             var lblSubtitle = new Label();
-            lblSubtitle.Text = "Add, edit, and manage your products";
-            lblSubtitle.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            lblSubtitle.Text = "Manage your product inventory";
+            lblSubtitle.Font = new Font("Segoe UI", 10, FontStyle.Regular);
             lblSubtitle.ForeColor = UIHelper.TextSecondary;
             lblSubtitle.AutoSize = true;
-            lblSubtitle.Location = new Point(0, 38);
-            titlePanel.Controls.Add(lblSubtitle);
+            lblSubtitle.Location = new Point(24, 40);
+            titleCard.Controls.Add(lblSubtitle);
 
             // Content area - use TableLayoutPanel for responsive two-column layout
             var contentPanel = new TableLayoutPanel();
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.BackColor = Color.Transparent;
-            contentPanel.Padding = new Padding(0, 10, 0, 0);
+            contentPanel.Padding = new Padding(20, 20, 20, 20);
             contentPanel.ColumnCount = 2;
             contentPanel.RowCount = 1;
-            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 60F)); // Left panel 60%
-            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 40F)); // Right panel 40%
+            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 62F)); // Left panel 62%
+            contentPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 38F)); // Right panel 38%
             contentPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             mainPanel.Controls.Add(contentPanel);
 
@@ -152,24 +157,24 @@ namespace RetailBillingSystem.Forms
             var panel = new Panel();
             panel.BackColor = Color.Transparent;
 
-            // Form card
+            // Form card - Clean minimal shadow
             var formCard = new Guna2ShadowPanel();
             formCard.FillColor = Color.White;
-            formCard.ShadowColor = Color.Black;
-            formCard.ShadowDepth = 15;
-            formCard.ShadowShift = 3;
+            formCard.ShadowColor = Color.FromArgb(20, 0, 0, 0);
+            formCard.ShadowDepth = 10;
+            formCard.ShadowShift = 2;
             formCard.Radius = 12;
             formCard.Dock = DockStyle.Fill;
-            formCard.Padding = new Padding(20);
+            formCard.Padding = new Padding(24);
             panel.Controls.Add(formCard);
 
             // Form title
             var lblFormTitle = new Label();
             lblFormTitle.Text = "Product Details";
-            lblFormTitle.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+            lblFormTitle.Font = new Font("Segoe UI Semibold", 14, FontStyle.Regular);
             lblFormTitle.ForeColor = UIHelper.TextPrimary;
             lblFormTitle.AutoSize = true;
-            lblFormTitle.Location = new Point(20, 20);
+            lblFormTitle.Location = new Point(24, 20);
             formCard.Controls.Add(lblFormTitle);
 
             int yPos = 60;
