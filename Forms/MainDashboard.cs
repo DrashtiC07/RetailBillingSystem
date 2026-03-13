@@ -87,10 +87,12 @@ namespace RetailBillingSystem.Forms
         {
             sidebarPanel = new Guna2Panel();
             sidebarPanel.Dock = DockStyle.Left;
-            sidebarPanel.Width = 220;
+            sidebarPanel.Width = 240;
             sidebarPanel.FillColor = UIHelper.SidebarBackground;
             sidebarPanel.Padding = new Padding(0);
             sidebarPanel.Margin = new Padding(0);
+            sidebarPanel.BorderColor = UIHelper.SidebarBorder;
+            sidebarPanel.BorderThickness = 1;
             this.Controls.Add(sidebarPanel);
 
             // Create sidebar content
@@ -99,34 +101,52 @@ namespace RetailBillingSystem.Forms
 
         private void CreateSidebarContent()
         {
-            // Logo area at top
+            // Logo area at top - Clean modern style
             var logoPanel = new Guna2Panel();
             logoPanel.Dock = DockStyle.Top;
-            logoPanel.Height = 80;
+            logoPanel.Height = 70;
             logoPanel.FillColor = Color.Transparent;
             sidebarPanel.Controls.Add(logoPanel);
 
+            // Logo icon circle
+            var logoCircle = new Guna2CircleButton();
+            logoCircle.FillColor = UIHelper.AccentColor;
+            logoCircle.ForeColor = Color.White;
+            logoCircle.Font = new Font("Segoe UI", 14, FontStyle.Bold);
+            logoCircle.Text = "M";
+            logoCircle.Size = new Size(36, 36);
+            logoCircle.Location = new Point(20, 17);
+            logoCircle.Enabled = false;
+            logoPanel.Controls.Add(logoCircle);
+
             var lblLogo = new Label();
-            lblLogo.Text = "RBS";
-            lblLogo.Font = new Font("Segoe UI", 24, FontStyle.Bold);
-            lblLogo.ForeColor = Color.White;
+            lblLogo.Text = "Maple";
+            lblLogo.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+            lblLogo.ForeColor = UIHelper.TextPrimary;
             lblLogo.AutoSize = true;
-            lblLogo.Location = new Point(20, 15);
+            lblLogo.Location = new Point(62, 22);
             logoPanel.Controls.Add(lblLogo);
 
-            var lblLogoText = new Label();
-            lblLogoText.Text = "Retail Billing";
-            lblLogoText.Font = new Font("Segoe UI", 9, FontStyle.Regular);
-            lblLogoText.ForeColor = Color.FromArgb(180, 255, 255, 255);
-            lblLogoText.AutoSize = true;
-            lblLogoText.Location = new Point(20, 48);
-            logoPanel.Controls.Add(lblLogoText);
+            // Section label for main navigation
+            var lblMenuSection = new Label();
+            lblMenuSection.Text = "MENU";
+            lblMenuSection.Font = new Font("Segoe UI", 8, FontStyle.Bold);
+            lblMenuSection.ForeColor = UIHelper.TextMuted;
+            lblMenuSection.AutoSize = true;
+            lblMenuSection.Location = new Point(20, 0);
+            
+            var sectionPanel = new Panel();
+            sectionPanel.Dock = DockStyle.Top;
+            sectionPanel.Height = 30;
+            sectionPanel.BackColor = Color.Transparent;
+            sectionPanel.Controls.Add(lblMenuSection);
+            sidebarPanel.Controls.Add(sectionPanel);
 
             // Menu container panel with proper spacing
             var menuPanel = new Guna2Panel();
             menuPanel.Dock = DockStyle.Fill;
             menuPanel.FillColor = Color.Transparent;
-            menuPanel.Padding = new Padding(10, 10, 10, 10);
+            menuPanel.Padding = new Padding(12, 0, 12, 12);
             sidebarPanel.Controls.Add(menuPanel);
 
             // Create menu buttons - add buttons based on role
@@ -136,6 +156,7 @@ namespace RetailBillingSystem.Forms
             buttonContainer.WrapContents = false;
             buttonContainer.AutoScroll = false;
             buttonContainer.Padding = new Padding(0);
+            buttonContainer.BackColor = Color.Transparent;
             menuPanel.Controls.Add(buttonContainer);
 
             if (CurrentUser.IsAdmin)
@@ -157,7 +178,16 @@ namespace RetailBillingSystem.Forms
                 btnSalesHistory.Click += (s, e) => { LoadForm(new SalesHistoryForm()); SetActiveButton(btnSalesHistory); };
                 buttonContainer.Controls.Add(btnSalesHistory);
 
+                // Separator
+                var separator = new Panel();
+                separator.Height = 1;
+                separator.Width = 200;
+                separator.BackColor = UIHelper.BorderColor;
+                separator.Margin = new Padding(0, 12, 0, 12);
+                buttonContainer.Controls.Add(separator);
+
                 btnLogout = CreateMenuButton("Logout");
+                btnLogout.ForeColor = UIHelper.DangerButton;
                 btnLogout.Click += BtnLogout_Click;
                 buttonContainer.Controls.Add(btnLogout);
             }
@@ -172,7 +202,16 @@ namespace RetailBillingSystem.Forms
                 btnSalesHistory.Click += (s, e) => { LoadForm(new SalesHistoryForm()); SetActiveButton(btnSalesHistory); };
                 buttonContainer.Controls.Add(btnSalesHistory);
 
+                // Separator
+                var separator = new Panel();
+                separator.Height = 1;
+                separator.Width = 200;
+                separator.BackColor = UIHelper.BorderColor;
+                separator.Margin = new Padding(0, 12, 0, 12);
+                buttonContainer.Controls.Add(separator);
+
                 btnLogout = CreateMenuButton("Logout");
+                btnLogout.ForeColor = UIHelper.DangerButton;
                 btnLogout.Click += BtnLogout_Click;
                 buttonContainer.Controls.Add(btnLogout);
             }
@@ -184,18 +223,19 @@ namespace RetailBillingSystem.Forms
             button.Text = text;
             button.ImageAlign = HorizontalAlignment.Left;
             button.TextAlign = HorizontalAlignment.Left;
-            button.ImageOffset = new Point(10, 0);
-            button.TextOffset = new Point(15, 0);
-            button.FillColor = UIHelper.SidebarBackground;
+            button.ImageOffset = new Point(8, 0);
+            button.TextOffset = new Point(12, 0);
+            button.FillColor = Color.Transparent;
             button.HoverState.FillColor = UIHelper.SidebarHover;
-            button.ForeColor = Color.White;
-            button.HoverState.ForeColor = Color.White;
-            button.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+            button.ForeColor = UIHelper.SidebarText;
+            button.HoverState.ForeColor = UIHelper.TextPrimary;
+            button.Font = new Font("Segoe UI Semibold", 10, FontStyle.Regular);
             button.BorderRadius = 8;
-            button.Height = 48;
-            button.Width = 190;
-            button.Margin = new Padding(0, 4, 0, 4);
+            button.Height = 44;
+            button.Width = 210;
+            button.Margin = new Padding(0, 2, 0, 2);
             button.Tag = text;
+            button.Cursor = Cursors.Hand;
             return button;
         }
 
@@ -203,43 +243,60 @@ namespace RetailBillingSystem.Forms
         {
             topHeaderPanel = new Guna2Panel();
             topHeaderPanel.Dock = DockStyle.Top;
-            topHeaderPanel.Height = 60;
-            topHeaderPanel.FillColor = Color.White;
+            topHeaderPanel.Height = 64;
+            topHeaderPanel.FillColor = UIHelper.HeaderBackground;
+            topHeaderPanel.BorderColor = UIHelper.BorderColor;
+            topHeaderPanel.BorderThickness = 1;
             this.Controls.Add(topHeaderPanel);
 
-            // Welcome message on left
+            // Search bar on left (optional - placeholder for future search)
+            var searchPanel = new Guna2Panel();
+            searchPanel.Dock = DockStyle.Left;
+            searchPanel.Width = 350;
+            searchPanel.FillColor = Color.Transparent;
+            searchPanel.Padding = new Padding(20, 12, 20, 12);
+            topHeaderPanel.Controls.Add(searchPanel);
+
+            // Page title
             lblWelcome = new Label();
-            lblWelcome.Text = $"Welcome, {CurrentUser.Username}!";
-            lblWelcome.Font = new Font("Segoe UI", 12, FontStyle.Regular);
+            lblWelcome.Text = $"Welcome back, {CurrentUser.Username}";
+            lblWelcome.Font = new Font("Segoe UI Semibold", 11, FontStyle.Regular);
             lblWelcome.ForeColor = UIHelper.TextPrimary;
             lblWelcome.AutoSize = true;
-            lblWelcome.Location = new Point(20, 18);
-            topHeaderPanel.Controls.Add(lblWelcome);
+            lblWelcome.Location = new Point(20, 20);
+            searchPanel.Controls.Add(lblWelcome);
 
             // User info on right
             var rightPanel = new Panel();
             rightPanel.Dock = DockStyle.Right;
-            rightPanel.Width = 200;
+            rightPanel.Width = 220;
             rightPanel.BackColor = Color.Transparent;
             topHeaderPanel.Controls.Add(rightPanel);
 
-            // Role label
+            // Role badge
+            var roleBadge = new Guna2Panel();
+            roleBadge.FillColor = CurrentUser.IsAdmin ? UIHelper.BadgeBlue : UIHelper.BadgeGreen;
+            roleBadge.BorderRadius = 12;
+            roleBadge.Size = new Size(70, 24);
+            roleBadge.Location = new Point(60, 20);
+            rightPanel.Controls.Add(roleBadge);
+
             lblRole = new Label();
             lblRole.Text = CurrentUser.Role;
-            lblRole.Font = new Font("Segoe UI", 10, FontStyle.Regular);
-            lblRole.ForeColor = UIHelper.TextSecondary;
+            lblRole.Font = new Font("Segoe UI Semibold", 8, FontStyle.Regular);
+            lblRole.ForeColor = CurrentUser.IsAdmin ? UIHelper.BadgeBlueText : UIHelper.BadgeGreenText;
             lblRole.AutoSize = true;
-            lblRole.Location = new Point(80, 20);
-            rightPanel.Controls.Add(lblRole);
+            lblRole.Location = new Point(CurrentUser.IsAdmin ? 12 : 6, 4);
+            roleBadge.Controls.Add(lblRole);
 
             // Profile button
             btnProfile = new Guna2CircleButton();
             btnProfile.Text = CurrentUser.Username.Substring(0, 1).ToUpper();
-            btnProfile.FillColor = UIHelper.PrimaryButton;
+            btnProfile.FillColor = UIHelper.AccentColor;
             btnProfile.ForeColor = Color.White;
-            btnProfile.Font = new Font("Segoe UI", 12, FontStyle.Bold);
-            btnProfile.Size = new Size(38, 38);
-            btnProfile.Location = new Point(140, 11);
+            btnProfile.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+            btnProfile.Size = new Size(36, 36);
+            btnProfile.Location = new Point(150, 14);
             rightPanel.Controls.Add(btnProfile);
         }
 

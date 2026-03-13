@@ -7,20 +7,23 @@ using System.Windows.Forms;
 namespace RetailBillingSystem.Utils
 {
     /// <summary>
-    /// Helper class for UI styling and common operations - Modern Dashboard Theme
+    /// Helper class for UI styling and common operations - Modern SaaS Dashboard Theme
     /// </summary>
     public static class UIHelper
     {
-        // Modern Color Palette - Inspired by Shopify Admin
-        public static readonly Color SidebarBackground = Color.FromArgb(24, 32, 44);       // Dark navy sidebar
-        public static readonly Color SidebarHover = Color.FromArgb(35, 47, 62);            // Lighter on hover
-        public static readonly Color SidebarActive = Color.FromArgb(79, 70, 229);          // Indigo accent for active
+        // Modern SaaS Color Palette - Clean & Professional (inspired by Maple invoice dashboard)
+        public static readonly Color SidebarBackground = Color.FromArgb(255, 255, 255);    // Clean white sidebar
+        public static readonly Color SidebarHover = Color.FromArgb(243, 244, 246);         // Light gray hover
+        public static readonly Color SidebarActive = Color.FromArgb(16, 185, 129);         // Green accent for active
+        public static readonly Color SidebarText = Color.FromArgb(55, 65, 81);             // Dark gray text
+        public static readonly Color SidebarTextActive = Color.FromArgb(16, 185, 129);     // Green active text
+        public static readonly Color SidebarBorder = Color.FromArgb(229, 231, 235);        // Subtle border
         public static readonly Color MainBackground = Color.FromArgb(249, 250, 251);       // Light gray background
         public static readonly Color CardBackground = Color.White;
-        public static readonly Color PrimaryButton = Color.FromArgb(79, 70, 229);          // Indigo primary
-        public static readonly Color PrimaryButtonHover = Color.FromArgb(67, 56, 202);     // Darker indigo
-        public static readonly Color SuccessButton = Color.FromArgb(16, 185, 129);         // Emerald green
-        public static readonly Color SuccessButtonHover = Color.FromArgb(5, 150, 105);     // Darker emerald
+        public static readonly Color PrimaryButton = Color.FromArgb(16, 185, 129);         // Green primary (like Maple)
+        public static readonly Color PrimaryButtonHover = Color.FromArgb(5, 150, 105);     // Darker green
+        public static readonly Color SuccessButton = Color.FromArgb(16, 185, 129);         // Green
+        public static readonly Color SuccessButtonHover = Color.FromArgb(5, 150, 105);     // Darker green
         public static readonly Color DangerButton = Color.FromArgb(239, 68, 68);           // Red
         public static readonly Color DangerButtonHover = Color.FromArgb(220, 38, 38);      // Darker red
         public static readonly Color WarningButton = Color.FromArgb(245, 158, 11);         // Amber
@@ -29,12 +32,17 @@ namespace RetailBillingSystem.Utils
         public static readonly Color TextSecondary = Color.FromArgb(107, 114, 128);        // Gray text
         public static readonly Color TextMuted = Color.FromArgb(156, 163, 175);            // Light gray text
         public static readonly Color BorderColor = Color.FromArgb(229, 231, 235);          // Light border
-        public static readonly Color InputBackground = Color.FromArgb(249, 250, 251);      // Input bg
-        public static readonly Color AccentColor = Color.FromArgb(79, 70, 229);            // Indigo accent
-        public static readonly Color HighlightRow = Color.FromArgb(238, 242, 255);         // Light indigo for selection
+        public static readonly Color InputBackground = Color.White;                         // White input bg
+        public static readonly Color AccentColor = Color.FromArgb(16, 185, 129);           // Green accent
+        public static readonly Color HighlightRow = Color.FromArgb(236, 253, 245);         // Light green for selection
+        public static readonly Color HeaderBackground = Color.White;                        // White header
+        public static readonly Color BadgeGreen = Color.FromArgb(209, 250, 229);           // Light green badge bg
+        public static readonly Color BadgeGreenText = Color.FromArgb(6, 95, 70);           // Dark green badge text
+        public static readonly Color BadgeBlue = Color.FromArgb(219, 234, 254);            // Light blue badge bg
+        public static readonly Color BadgeBlueText = Color.FromArgb(30, 64, 175);          // Dark blue badge text
 
         /// <summary>
-        /// Styles a Guna2Button as a sidebar menu item - Modern flat design
+        /// Styles a Guna2Button as a sidebar menu item - Modern clean design
         /// </summary>
         public static void StyleSidebarButton(Guna2Button button, string text, Image icon)
         {
@@ -46,24 +54,25 @@ namespace RetailBillingSystem.Utils
             button.TextOffset = new Point(8, 0);
             button.FillColor = Color.Transparent;
             button.HoverState.FillColor = SidebarHover;
-            button.ForeColor = Color.FromArgb(200, 255, 255, 255);
-            button.HoverState.ForeColor = Color.White;
+            button.ForeColor = SidebarText;
+            button.HoverState.ForeColor = TextPrimary;
             button.Font = new Font("Segoe UI Semibold", 10, FontStyle.Regular);
             button.BorderRadius = 8;
-            button.Height = 48;
+            button.Height = 44;
             button.Dock = DockStyle.Top;
             button.Margin = new Padding(8, 2, 8, 2);
         }
 
         /// <summary>
-        /// Sets a sidebar button as active - with accent color and left border indicator
+        /// Sets a sidebar button as active - with green accent background
         /// </summary>
         public static void SetSidebarButtonActive(Guna2Button button)
         {
-            button.FillColor = Color.FromArgb(40, 79, 70, 229);  // Semi-transparent indigo
-            button.HoverState.FillColor = Color.FromArgb(50, 79, 70, 229);
-            button.ForeColor = Color.White;
-            button.BorderColor = SidebarActive;
+            button.FillColor = Color.FromArgb(236, 253, 245);  // Light green background
+            button.HoverState.FillColor = Color.FromArgb(209, 250, 229);
+            button.ForeColor = SidebarActive;  // Green text
+            button.HoverState.ForeColor = SidebarActive;
+            button.BorderColor = Color.Transparent;
             button.BorderThickness = 0;
         }
 
@@ -74,7 +83,8 @@ namespace RetailBillingSystem.Utils
         {
             button.FillColor = Color.Transparent;
             button.HoverState.FillColor = SidebarHover;
-            button.ForeColor = Color.FromArgb(200, 255, 255, 255);
+            button.ForeColor = SidebarText;
+            button.HoverState.ForeColor = TextPrimary;
             button.BorderThickness = 0;
         }
 
@@ -86,7 +96,7 @@ namespace RetailBillingSystem.Utils
             button.Text = text;
             button.FillColor = PrimaryButton;
             button.HoverState.FillColor = PrimaryButtonHover;
-            button.PressedColor = Color.FromArgb(55, 48, 163);
+            button.PressedColor = Color.FromArgb(4, 120, 87);  // Dark green
             button.ForeColor = Color.White;
             button.Font = new Font("Segoe UI Semibold", 10, FontStyle.Regular);
             button.BorderRadius = 10;
@@ -215,7 +225,7 @@ namespace RetailBillingSystem.Utils
         }
 
         /// <summary>
-        /// Styles a Guna2DataGridView with modern dashboard appearance - Clean table style
+        /// Styles a Guna2DataGridView with modern SaaS dashboard appearance - Clean minimal table
         /// </summary>
         public static void StyleDataGridView(Guna2DataGridView dgv)
         {
@@ -225,14 +235,14 @@ namespace RetailBillingSystem.Utils
             dgv.BorderStyle = BorderStyle.None;
             dgv.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             
-            // Header styling - Dark gradient header
+            // Header styling - Clean light header (like Maple)
             dgv.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(31, 41, 55);  // Dark slate
-            dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
-            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 10, FontStyle.Regular);
+            dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);  // Light gray
+            dgv.ColumnHeadersDefaultCellStyle.ForeColor = TextSecondary;
+            dgv.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 9, FontStyle.Regular);
             dgv.ColumnHeadersDefaultCellStyle.Padding = new Padding(16, 12, 8, 12);
             dgv.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dgv.ColumnHeadersHeight = 48;
+            dgv.ColumnHeadersHeight = 44;
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgv.EnableHeadersVisualStyles = false;
             
@@ -243,19 +253,19 @@ namespace RetailBillingSystem.Utils
             dgv.DefaultCellStyle.Padding = new Padding(16, 10, 8, 10);
             dgv.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             
-            // Selection styling - Subtle highlight
+            // Selection styling - Subtle green highlight
             dgv.DefaultCellStyle.SelectionBackColor = HighlightRow;
             dgv.DefaultCellStyle.SelectionForeColor = TextPrimary;
             
-            // Alternating rows
-            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(249, 250, 251);
+            // Alternating rows - subtle stripe
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(255, 255, 255);
             dgv.AlternatingRowsDefaultCellStyle.SelectionBackColor = HighlightRow;
             dgv.AlternatingRowsDefaultCellStyle.SelectionForeColor = TextPrimary;
             
-            // Grid styling
+            // Grid styling - subtle borders
             dgv.GridColor = Color.FromArgb(243, 244, 246);
             dgv.RowHeadersVisible = false;
-            dgv.RowTemplate.Height = 52;
+            dgv.RowTemplate.Height = 56;
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgv.MultiSelect = false;
             

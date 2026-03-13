@@ -1,4 +1,4 @@
-﻿using Guna.UI2.WinForms;
+using Guna.UI2.WinForms;
 using Npgsql;
 using RetailBillingSystem.Database;
 using RetailBillingSystem.Utils;
@@ -49,12 +49,12 @@ namespace RetailBillingSystem.Forms
 
         private void InitializeCustomComponents()
         {
-            // Create gradient background panel (left side)
+            // Create green accent panel (left side) - matching login
             gradientPanel = new Guna2GradientPanel();
             gradientPanel.Dock = DockStyle.Left;
             gradientPanel.Width = 400;
-            gradientPanel.FillColor = UIHelper.SidebarBackground;
-            gradientPanel.FillColor2 = UIHelper.SidebarActive;
+            gradientPanel.FillColor = UIHelper.AccentColor;
+            gradientPanel.FillColor2 = UIHelper.AccentColor;
             gradientPanel.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.Controls.Add(gradientPanel);
 
@@ -67,48 +67,57 @@ namespace RetailBillingSystem.Forms
 
         private void CreateGradientPanelContent()
         {
+            // Logo icon
+            var logoCircle = new Guna2CircleButton();
+            logoCircle.FillColor = Color.White;
+            logoCircle.ForeColor = UIHelper.AccentColor;
+            logoCircle.Font = new Font("Segoe UI", 24, FontStyle.Bold);
+            logoCircle.Text = "M";
+            logoCircle.Size = new Size(60, 60);
+            logoCircle.Location = new Point(50, 60);
+            logoCircle.Enabled = false;
+            gradientPanel.Controls.Add(logoCircle);
+
+            // Logo text
+            var lblLogo = new Label();
+            lblLogo.Text = "Maple";
+            lblLogo.Font = new Font("Segoe UI", 24, FontStyle.Bold);
+            lblLogo.ForeColor = Color.White;
+            lblLogo.AutoSize = true;
+            lblLogo.Location = new Point(120, 72);
+            gradientPanel.Controls.Add(lblLogo);
+
             // Welcome label
             var lblWelcome = new Label();
             lblWelcome.Text = "Create Account";
             lblWelcome.Font = new Font("Segoe UI", 28, FontStyle.Bold);
             lblWelcome.ForeColor = Color.White;
             lblWelcome.AutoSize = true;
-            lblWelcome.Location = new Point(50, 150);
+            lblWelcome.Location = new Point(50, 180);
             gradientPanel.Controls.Add(lblWelcome);
 
             // Subtitle
             lblSubtitle = new Label();
             lblSubtitle.Text = "Join our retail billing system\nManage your purchases easily";
             lblSubtitle.Font = new Font("Segoe UI", 12, FontStyle.Regular);
-            lblSubtitle.ForeColor = Color.FromArgb(200, 255, 255, 255);
+            lblSubtitle.ForeColor = Color.FromArgb(220, 255, 255, 255);
             lblSubtitle.AutoSize = true;
-            lblSubtitle.Location = new Point(50, 210);
+            lblSubtitle.Location = new Point(50, 235);
             gradientPanel.Controls.Add(lblSubtitle);
-
-            // Logo placeholder
-            var logoPanel = new Guna2Panel();
-            logoPanel.Size = new Size(80, 80);
-            logoPanel.Location = new Point(50, 50);
-            logoPanel.BorderRadius = 40;
-            logoPanel.FillColor = Color.FromArgb(50, 255, 255, 255);
-            gradientPanel.Controls.Add(logoPanel);
-
-            var lblLogo = new Label();
-            lblLogo.Text = "RBS";
-            lblLogo.Font = new Font("Segoe UI", 20, FontStyle.Bold);
-            lblLogo.ForeColor = Color.White;
-            lblLogo.AutoSize = true;
-            lblLogo.Location = new Point(18, 22);
-            logoPanel.Controls.Add(lblLogo);
         }
 
         private void CreateRegisterCard()
         {
-            // Card panel
+            // Card panel - Clean minimal shadow
             cardPanel = new Guna2ShadowPanel();
-            UIHelper.StyleCardPanel(cardPanel);
-            cardPanel.Size = new Size(520, 550);
-            cardPanel.Location = new Point(450, 75);
+            cardPanel.FillColor = Color.White;
+            cardPanel.ShadowColor = Color.FromArgb(40, 0, 0, 0);
+            cardPanel.ShadowDepth = 20;
+            cardPanel.ShadowShift = 4;
+            cardPanel.Radius = 16;
+            cardPanel.Padding = new Padding(30);
+            cardPanel.Size = new Size(500, 540);
+            cardPanel.Location = new Point(460, 80);
             this.Controls.Add(cardPanel);
 
             // Use TableLayoutPanel for proper layout
